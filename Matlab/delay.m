@@ -1,4 +1,4 @@
-function [x]=delay(N,y)   
+function [x]=delay(N, y)   
 %   N = The amount of delay in seconds/441000.  
 %   X = Input
 x = y; % set up a new array, same size as old one

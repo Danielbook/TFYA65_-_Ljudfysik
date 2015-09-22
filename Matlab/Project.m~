@@ -2,18 +2,25 @@
 clear all; clc; close all;
 % Ladda in ljudfil
     filename = 'My_life_is_potato.wav';
-    [y,Fs] = audioread(filename); % y = audio data, Fs = Hertz
+    [y, Fs] = audioread(filename); % y = audio data, Fs = Hertz
    	original = audioplayer(y, Fs);
 
+    
+    %% Restore to original signal
+    
+    testSignal = y;
+    
     %% Play the Original
     play(original);
     pause(5);
     stop(original);
     
     %% Distortion
-    distGain = 0.9 % amount of distortion added to signal -1 < a < 1 
-    yDist = distortion(distGain , y);
-    distorion = audioplayer(yDist, Fs);
+    distGain = 0.9; % amount of distortion added to signal -1 < a < 1 
+    
+    testSignal = distortion(distGain , testSignal);
+    
+    distorion = audioplayer(testSignal, Fs);
     
     %% Play Distortion
     play(distorion);
@@ -21,11 +28,9 @@ clear all; clc; close all;
     stop(distorion);
 
 %% Delay
-%     out = y;  % set up a new array, same size as old one
-    N=44100;  % delay amount N/44100 seconds
-%     for n=N+1:length(y)
-%           out(n)=.8*out(n-N)+y(n);  % recursive echo
-%     end
+    N = 0.5;  % Delay amount seconds
+    N = N * 44100;
+    
     yDelay = delay(N, y);
     
     delay = audioplayer(yDelay, Fs);
@@ -35,21 +40,18 @@ clear all; clc; close all;
     pause(5);
     stop(delay);
 
-%% Chorus
-    out=y;  % set up a new array, same size as old one
-    N=1000;  % delay amount N/44100 seconds
-   
-    for n=N+1:length(y)
-          out(n,1)=y(n,1)+y(n-N,2);  % echo right-to-left!
-    out(n,2)=y(n,2)+y(n-N,1);  % echo left-to-right!
-    end
+%% Tremolo
+    % Varies the amplitude of the output signal 
+    Fc = 12;        % SPEED
+    alpha = 0.9;    % MIX
     
-    chorus = audioplayer(out, Fs);
-    
-    play(chorus);
-    pause(5);
-    stop(chorus);
+    y = tremolo(alpha, y, Fc, Fs) 
 
-%% Play file
+    tremolo = audioplayer(y, Fs);
+    
+    %% Play Tremolo
+    play(tremolo);
+    pause(5);
+    stop(tremolo);
 
     
