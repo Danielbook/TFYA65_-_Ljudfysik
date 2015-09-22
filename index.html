@@ -17,6 +17,11 @@
        var boxMaterial1, boxMaterial2, boxMaterial3;
        var boxMesh1, boxMesh2, boxMesh3;
 
+      /* var knobMaterial;
+       var knob1Mesh;
+       var knob1;
+       */
+
        init();
        animate();
 
@@ -35,6 +40,8 @@
            boxMaterial2 = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity:0.8 } );
            boxMaterial3 = new THREE.MeshBasicMaterial( { color: 0xffff00, opacity:0.8 } );
 
+           //knobMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+
            //----------GEOMETRY----------
            // Create a Box
            box1 = new THREE.BoxGeometry( 350, 550, 10 );
@@ -49,6 +56,12 @@
            boxMesh3 = new THREE.Mesh( box3, boxMaterial3 );
            boxMesh3.position.set(600, 0, 0);
 
+           /*
+           knob1 = new THREE.CircleGeometry( 150, 50 );
+           knob1Mesh = new THREE.Mesh( knob1, knobMaterial );
+           knob1Mesh.position.set( 0, 0, 0 );
+           */
+
 
            //----------GEOMETRY----------
 
@@ -56,6 +69,8 @@
            scene.add( boxMesh1 );
            scene.add( boxMesh2 );
            scene.add( boxMesh3 );
+
+      //      scene.add( knob1Mesh );
 
            //Add keyboard listener
 
