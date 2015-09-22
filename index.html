@@ -27,7 +27,8 @@
         var intersects;
         var mouse = new THREE.Vector2();
         var clickedObject;
-
+        var ifClicked = false;
+        var clickableObjects = [];
 
         init();
         animate();
@@ -84,6 +85,9 @@
            scene.add( boxMesh2 );
            scene.add( boxMesh3 );
 
+           clickableObjects.push(boxMesh1);
+           clickableObjects.push(boxMesh2);
+           clickableObjects.push(boxMesh3);
 
       //      scene.add( knob1Mesh );
 
@@ -97,34 +101,26 @@
            document.addEventListener('mousedown', onMouseDown, false);
        }
 
-
-
-  /*     function DocunemtMouseDown (event)
-       {
-         var mouseX = 2 * (event.clientX / window.innerWidth) - 1;
-         var mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-
-         var vector = new THREE.Vector3(mouseX, mouseY, 1);
-         vector.unproject( this.camera );
-       }
-*/
-
         function onMouseDown(event)
         {
-
+          console.log("hej");
           event.preventDefault();   // "Description: If this method is called, the default action of the event will not be triggered"
 
         	mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
         	mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
 
-          window.alert(mouse.x);
+        //  window.alert(mouse.x);
 
           // update the picking ray with the camera and mouse position
         	raycaster.setFromCamera( mouse, camera );
           intersects = raycaster.intersectObjects( clickableObjects );
-          clickedObject = intersects[0].object;
+          if( intersects > 0 )
+          {
+            clickedObject = intersects[0].object;
+            //console.log(intersects[0].object);
+          }
 
-
+          intersects[0].object.position.copy(0, 0, 0);
         }
 /*
         function onMouseUp(event)
