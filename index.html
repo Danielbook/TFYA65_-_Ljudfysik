@@ -27,7 +27,7 @@
         var intersects;
         var mouse = new THREE.Vector2();
         var clickedObject;
-        var ifClicked = false;
+        var mouseDown = false;
         var clickableObjects = [];
 
         init();
@@ -58,7 +58,7 @@
            //knobMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
 
            //----------GEOMETRY----------
-           // Create a Box
+           // Create boxes
            box1 = new THREE.BoxGeometry( 350, 550, 10 );
            boxMesh1 = new THREE.Mesh( box1, boxMaterial1 );
            boxMesh1.position.set(-600, 0, 0);
@@ -85,13 +85,13 @@
            scene.add( boxMesh2 );
            scene.add( boxMesh3 );
 
+           // Add geometry to clickableObjects matrix-stack
            clickableObjects.push(boxMesh1);
            clickableObjects.push(boxMesh2);
            clickableObjects.push(boxMesh3);
 
       //      scene.add( knob1Mesh );
 
-           //Add keyboard listener
 
            renderer = new THREE.WebGLRenderer({alpha: true});
            renderer.setSize( window.innerWidth, window.innerHeight );
@@ -99,13 +99,17 @@
            document.body.appendChild( renderer.domElement );
 
            document.addEventListener('mousedown', onMouseDown, false);
+           document.addEventListener('mouseup', onMouseUp, false);
+           document.addEventListener('mousemove', onMouseMove, false);
+
+
        }
 
         function onMouseDown(event)
         {
+          mouseDown = true;
           console.log("hej");
           event.preventDefault();   // "Description: If this method is called, the default action of the event will not be triggered"
-
         	mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
         	mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
 
@@ -114,18 +118,18 @@
           // update the picking ray with the camera and mouse position
         	raycaster.setFromCamera( mouse, camera );
           intersects = raycaster.intersectObjects( clickableObjects );
-          if( intersects > 0 )
+          if( intersects.length > 0 )
           {
             clickedObject = intersects[0].object;
-            //console.log(intersects[0].object);
+            //intersects[0].object.position.set(400,0 , 0);
           }
+          console.log(intersects[0].object);
 
-          intersects[0].object.position.copy(0, 0, 0);
         }
-/*
+
         function onMouseUp(event)
         {
-
+          mouseDown = false;
         }
 
         function onMouseMove(event)
@@ -134,8 +138,20 @@
           {
             return;
           }
+          event.preventDefault();   // "Description: If this method is called, the default action of the event will not be triggered"
+          mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
+          mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
+
+          raycaster.setFromCamera( mouse, camera );
+          intersects = raycaster.intersectObjects( clickableObjects );
+          if( intersects.length > 0 && mouseDown)
+          {
+            clickedObject = intersects[0].object;
+            intersects[0].object.position.set((mouse.x * 1000) ,0 , 0);
+            console.log(mouse.x);
+          }
         }
-*/
+
        function animate()
        {
            requestAnimationFrame( animate );
