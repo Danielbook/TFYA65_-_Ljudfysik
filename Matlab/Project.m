@@ -3,17 +3,23 @@ clear all; clc; close all;
 % Ladda in ljudfil
     filename = 'My_life_is_potato.wav';
     [y,Fs] = audioread(filename); % y = audio data, Fs = Hertz
-   	%player = audioplayer(y, Fs);
-    
+   	original = audioplayer(y, Fs);
     
     y(1:1000,:)
-%% Distortion
-    distGain = 0.5 % amount of distortion added to signal -1 < a < 1 
-    y = distortion(distGain , y);
-    player = audioplayer(y, Fs);
-    play(player);
+
+    %% Play the Original
+    play(original);
     pause(5);
-    stop(player);
+    stop(original);
+    
+    %% Distortion
+    distGain = 0.9 % amount of distortion added to signal -1 < a < 1 
+    y = distortion(distGain , y);
+    distorion = audioplayer(y, Fs);
+    
+    play(distorion);
+    pause(5);
+    stop(distorion);
 
 %% Delay
     
