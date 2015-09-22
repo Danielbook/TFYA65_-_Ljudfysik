@@ -4,8 +4,6 @@ clear all; clc; close all;
     filename = 'My_life_is_potato.wav';
     [y,Fs] = audioread(filename); % y = audio data, Fs = Hertz
    	original = audioplayer(y, Fs);
-    
-    y(1:1000,:)
 
     %% Play the Original
     play(original);
@@ -13,7 +11,7 @@ clear all; clc; close all;
     stop(original);
     
     %% Distortion
-    distGain = 0.9 % amount of distortion added to signal -1 < a < 1 
+    distGain = 0.9; % amount of distortion added to signal -1 < a < 1 
     y = distortion(distGain , y);
     distorion = audioplayer(y, Fs);
     

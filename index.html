@@ -4,7 +4,7 @@
     <title>Projekt 1</title>
     <!-- <link rel="stylesheet" href="css/jquery-ui.css"> -->
 
-    <script src="js/jquery-1.11.3.js"></script>
+    <!-- <script src="js/jquery-1.11.3.js"></script> -->
 
     <style>
       body{margin: 0}
@@ -24,8 +24,9 @@
 
         //---------------CLICK FUNCTIONALITY----------------
         var raycaster = new THREE.Raycaster();
-        var intersects = raycaster.intersectObjects( clickableObjects );
+        var intersects;
         var mouse = new THREE.Vector2();
+        var clickedObject;
 
 
         init();
@@ -90,10 +91,10 @@
 
            renderer = new THREE.WebGLRenderer({alpha: true});
            renderer.setSize( window.innerWidth, window.innerHeight );
-        //   window.addEventListener( 'mousemove', onMouseMove, false );
 
            document.body.appendChild( renderer.domElement );
 
+           document.addEventListener('mousedown', onMouseDown, false);
        }
 
 
@@ -108,22 +109,27 @@
        }
 */
 
-        function onDocumentMouseDown(event)
+        function onMouseDown(event)
         {
-          console.log("Click.");
 
           event.preventDefault();   // "Description: If this method is called, the default action of the event will not be triggered"
 
         	mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
         	mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
 
+          window.alert(mouse.x);
+
           // update the picking ray with the camera and mouse position
         	raycaster.setFromCamera( mouse, camera );
-        	intersects = raycaster.intersectObjects( clickableObjects );
-        }
+          intersects = raycaster.intersectObjects( clickableObjects );
+          clickedObject = intersects[0].object;
 
+
+        }
+/*
         function onMouseUp(event)
         {
+
         }
 
         function onMouseMove(event)
@@ -133,13 +139,13 @@
             return;
           }
         }
-
+*/
        function animate()
        {
            requestAnimationFrame( animate );
 
            //Rotate Box and Triangle
-           //boxMesh1.rotation.y += 0.01;
+
            //boxMesh2.rotation.y += 0.01;
            //boxMesh3.rotation.y += 0.01;
 
