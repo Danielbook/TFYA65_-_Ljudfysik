@@ -1,4 +1,4 @@
-function [x]=distortion(a,x)
+function [x]=distortion(a, x)
 %   A = The amount of distortion.  A
 %       should be chosen so that -1<A<1.
 %   X = Input.  Should be a column vector 
