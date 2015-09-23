@@ -76,8 +76,6 @@
            knob1Mesh = new THREE.Mesh( knob1, knobMaterial );
            knob1Mesh.position.set( 0, 0, 0 );
            */
-
-
            //----------GEOMETRY----------
 
            // Add geometry to the Scene
@@ -92,7 +90,6 @@
 
       //      scene.add( knob1Mesh );
 
-
            renderer = new THREE.WebGLRenderer({alpha: true});
            renderer.setSize( window.innerWidth, window.innerHeight );
 
@@ -101,8 +98,6 @@
            document.addEventListener('mousedown', onMouseDown, false);
            document.addEventListener('mouseup', onMouseUp, false);
            document.addEventListener('mousemove', onMouseMove, false);
-
-
        }
 
         function onMouseDown(event)
@@ -113,23 +108,33 @@
         	mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
         	mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
 
-        //  window.alert(mouse.x);
-
           // update the picking ray with the camera and mouse position
         	raycaster.setFromCamera( mouse, camera );
           intersects = raycaster.intersectObjects( clickableObjects );
           if( intersects.length > 0 )
           {
             clickedObject = intersects[0].object;
-            //intersects[0].object.position.set(400,0 , 0);
           }
-          console.log(intersects[0].object);
-
+          //console.log(mouse.x*1000);
+          //console.log(clickedObject.position.x);
         }
 
         function onMouseUp(event)
         {
           mouseDown = false;
+
+            if( clickedObject.position.x < -300 )
+            {
+              clickedObject.position.set(-600, 0, 0);
+            }
+            if( clickedObject.position.x > 300 )
+            {
+              clickedObject.position.set(600, 0, 0);
+            }
+            if (clickedObject.position.x < 300 && clickedObject.position.x > -300)
+            {
+              clickedObject.position.set(0, 0, 0);
+            }
         }
 
         function onMouseMove(event)
@@ -138,17 +143,15 @@
           {
             return;
           }
+
           event.preventDefault();   // "Description: If this method is called, the default action of the event will not be triggered"
           mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
           mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
 
-          raycaster.setFromCamera( mouse, camera );
-          intersects = raycaster.intersectObjects( clickableObjects );
           if( intersects.length > 0 && mouseDown)
           {
-            clickedObject = intersects[0].object;
-            intersects[0].object.position.set((mouse.x * 1000) ,0 , 0);
-            console.log(mouse.x);
+            clickedObject.position.set((mouse.x * 1000) ,0 , 0);  //Only the object chosen when clicked is supposed to move
+            //intersects[0].object.position.set((mouse.x * 1000) ,0 , 0
           }
         }
 
