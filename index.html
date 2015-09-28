@@ -4,7 +4,7 @@
     <title>Projekt 1</title>
     <!-- <link rel="stylesheet" href="css/jquery-ui.css"> -->
 
-    <script src="js/jquery-1.11.3.js"></script>
+    <!-- <script src="js/jquery-1.11.3.js"></script> -->
 
     <style>
       body{margin: 0}
@@ -24,9 +24,11 @@
 
         //---------------CLICK FUNCTIONALITY----------------
         var raycaster = new THREE.Raycaster();
-        var intersects = raycaster.intersectObjects( clickableObjects );
+        var intersects;
         var mouse = new THREE.Vector2();
-
+        var clickedObject;
+        var mouseDown = false;
+        var clickableObjects = [];
 
         init();
         animate();
@@ -56,7 +58,7 @@
            //knobMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
 
            //----------GEOMETRY----------
-           // Create a Box
+           // Create boxes
            box1 = new THREE.BoxGeometry( 350, 550, 10 );
            boxMesh1 = new THREE.Mesh( box1, boxMaterial1 );
            boxMesh1.position.set(-600, 0, 0);
@@ -74,8 +76,6 @@
            knob1Mesh = new THREE.Mesh( knob1, knobMaterial );
            knob1Mesh.position.set( 0, 0, 0 );
            */
-
-
            //----------GEOMETRY----------
 
            // Add geometry to the Scene
@@ -83,47 +83,58 @@
            scene.add( boxMesh2 );
            scene.add( boxMesh3 );
 
+           // Add geometry to clickableObjects matrix-stack
+           clickableObjects.push(boxMesh1);
+           clickableObjects.push(boxMesh2);
+           clickableObjects.push(boxMesh3);
 
       //      scene.add( knob1Mesh );
 
-           //Add keyboard listener
-
            renderer = new THREE.WebGLRenderer({alpha: true});
            renderer.setSize( window.innerWidth, window.innerHeight );
-        //   window.addEventListener( 'mousemove', onMouseMove, false );
 
            document.body.appendChild( renderer.domElement );
 
+           document.addEventListener('mousedown', onMouseDown, false);
+           document.addEventListener('mouseup', onMouseUp, false);
+           document.addEventListener('mousemove', onMouseMove, false);
        }
 
-
-
-  /*     function DocunemtMouseDown (event)
-       {
-         var mouseX = 2 * (event.clientX / window.innerWidth) - 1;
-         var mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-
-         var vector = new THREE.Vector3(mouseX, mouseY, 1);
-         vector.unproject( this.camera );
-       }
-*/
-
-        function onDocumentMouseDown(event)
+        function onMouseDown(event)
         {
-          console.log("Click.");
-
+          mouseDown = true;
+          console.log("hej");
           event.preventDefault();   // "Description: If this method is called, the default action of the event will not be triggered"
-
         	mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
         	mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
 
           // update the picking ray with the camera and mouse position
         	raycaster.setFromCamera( mouse, camera );
-        	intersects = raycaster.intersectObjects( clickableObjects );
+          intersects = raycaster.intersectObjects( clickableObjects );
+          if( intersects.length > 0 )
+          {
+            clickedObject = intersects[0].object;
+          }
+          //console.log(mouse.x*1000);
+          //console.log(clickedObject.position.x);
         }
 
         function onMouseUp(event)
         {
+          mouseDown = false;
+
+            if( clickedObject.position.x < -300 )
+            {
+              clickedObject.position.set(-600, 0, 0);
+            }
+            if( clickedObject.position.x > 300 )
+            {
+              clickedObject.position.set(600, 0, 0);
+            }
+            if (clickedObject.position.x < 300 && clickedObject.position.x > -300)
+            {
+              clickedObject.position.set(0, 0, 0);
+            }
         }
 
         function onMouseMove(event)
@@ -132,6 +143,16 @@
           {
             return;
           }
+
+          event.preventDefault();   // "Description: If this method is called, the default action of the event will not be triggered"
+          mouse.x = ( event.clientX / renderer.domElement.width ) * 2 - 1;
+          mouse.y = - ( event.clientY / renderer.domElement.height ) * 2 + 1;
+
+          if( intersects.length > 0 && mouseDown)
+          {
+            clickedObject.position.set((mouse.x * 1000) ,0 , 0);  //Only the object chosen when clicked is supposed to move
+            //intersects[0].object.position.set((mouse.x * 1000) ,0 , 0
+          }
         }
 
        function animate()
@@ -139,7 +160,7 @@
            requestAnimationFrame( animate );
 
            //Rotate Box and Triangle
-           //boxMesh1.rotation.y += 0.01;
+
            //boxMesh2.rotation.y += 0.01;
            //boxMesh3.rotation.y += 0.01;
 
