@@ -23,7 +23,7 @@ clear all; clc; close all;
     signal = audioplayer(testSignal, Fs);
 
 %% Delay
-    N = 0.5;  % Delay amount seconds
+    N = 0.01;  % Delay amount seconds
     N = N * 44100;
     
     testSignal = delay(N, testSignal);
