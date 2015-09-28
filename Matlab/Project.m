@@ -35,7 +35,7 @@ clear all; clc; close all;
     Fc = 12;        % SPEED
     alpha = 0.9;    % MIX
     
-    testSignal = tremolo(alpha, testSignal, Fc, Fs) 
+    testSignal = tremolo(alpha, testSignal, Fc, Fs); 
 
     signal = audioplayer(testSignal, Fs);
     
