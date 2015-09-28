@@ -53,7 +53,20 @@ recordblocking(recObj, 5);
 disp('End of Recording.');
 
 play(recObj);
-
-%% Fuck is this???
+%%
  y = getaudiodata(recObj);
  plot(y);
+
+%%
+   	recObj = audioplayer(y, Fs);
+    
+    distGain = 0.9; % amount of distortion added to signal -1 < a < 1 
+    
+    
+     testSignal = distortion(distGain , testSignal);
+    recObj = distortion(distGain , y);
+    
+   
+    play(recObj);
+    pause(5);
+    stop(recObj);
