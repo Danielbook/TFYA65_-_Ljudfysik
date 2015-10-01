@@ -1,6 +1,5 @@
 function [x]=tremolo(alpha, y, Fc, Fs) 
 
-%   N = 
 %   y = input
 %   x = output signal
 
