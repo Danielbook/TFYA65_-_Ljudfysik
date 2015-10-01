@@ -33,10 +33,11 @@
         init();
         animate();
 
-      /* var knobMaterial;
+       var knobMaterial;
        var knob1Mesh;
        var knob1;
-       */
+       var clickableKnobs = [];
+
 
        function init() {
 
@@ -55,7 +56,7 @@
            boxMaterial2 = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity:0.8 } );
            boxMaterial3 = new THREE.MeshBasicMaterial( { color: 0xffff00, opacity:0.8 } );
 
-           //knobMaterial = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
+           knobMaterial = new THREE.MeshBasicMaterial( { wireframe: true } );
 
            //----------GEOMETRY----------
            // Create boxes
@@ -71,24 +72,26 @@
            boxMesh3 = new THREE.Mesh( box3, boxMaterial3 );
            boxMesh3.position.set(600, 0, 0);
 
-           /*
-           knob1 = new THREE.CircleGeometry( 150, 50 );
+
+           knob1 = new THREE.CylinderGeometry( 75, 75, 50, 32 );
            knob1Mesh = new THREE.Mesh( knob1, knobMaterial );
-           knob1Mesh.position.set( 0, 0, 0 );
-           */
+           knob1Mesh.position.set( -600, 0, 10 );
+           knob1Mesh.rotation.x = 3.14/2;
+
            //----------GEOMETRY----------
 
            // Add geometry to the Scene
            scene.add( boxMesh1 );
            scene.add( boxMesh2 );
            scene.add( boxMesh3 );
+           scene.add( knob1Mesh );
 
            // Add geometry to clickableObjects matrix-stack
-           clickableObjects.push(boxMesh1);
-           clickableObjects.push(boxMesh2);
-           clickableObjects.push(boxMesh3);
+           clickableObjects.push( boxMesh1 );
+           clickableObjects.push( boxMesh2 );
+           clickableObjects.push( boxMesh3 );
+           clickableObjects.push( knob1Mesh );
 
-      //      scene.add( knob1Mesh );
 
            renderer = new THREE.WebGLRenderer({alpha: true});
            renderer.setSize( window.innerWidth, window.innerHeight );
@@ -163,7 +166,7 @@
 
            //boxMesh2.rotation.y += 0.01;
            //boxMesh3.rotation.y += 0.01;
-
+           //knob1Mesh.rotation.z += 0.01;
            // Render rerender the scene
            renderer.render( scene, camera );
        }

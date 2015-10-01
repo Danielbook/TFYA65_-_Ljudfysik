@@ -22,7 +22,7 @@ clear all; clc; close all;
     
     signal = audioplayer(testSignal, Fs);
 
-%% Delay Lågpass?? Distortion??
+%% Delay LÃ‚gpass?? Distortion??
     N = .6;  % Delay amount seconds
     N = N * 44100;
     
