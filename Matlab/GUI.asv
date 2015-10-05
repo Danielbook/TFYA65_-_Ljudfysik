@@ -249,9 +249,8 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function axes1_CreateFcn(hObject, eventdata, handles)
-    axes(hObject)
-    imshow('pot.jpg')
-% hObject    handle to axes1 (see GCBO)
+axes(hObject)
+    imshow('pot.jpg')% hObject    handle to axes1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
