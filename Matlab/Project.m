@@ -22,7 +22,7 @@ clear all; clc; close all;
     
     signal = audioplayer(testSignal, Fs);
 
-%% Delay LÂgpass?? Distortion??
+%% Delay L??gpass?? Distortion??
     N = .6;  % Delay amount seconds
     N = N * 44100;
     
@@ -42,3 +42,14 @@ clear all; clc; close all;
 %% Play Signal
     play(signal);
     
+ %% RECORD SOUND
+ 
+recObj = audiorecorder 
+ 
+disp('Start speaking.')
+recordblocking(recObj, 5);
+disp('End of Recording.');
+
+%% PLAY RECORDING
+
+play(recObj);

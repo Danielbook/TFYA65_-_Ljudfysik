@@ -22,7 +22,7 @@ function varargout = GUI(varargin)
 
 % Edit the above text to modify the response to help GUI
 
-% Last Modified by GUIDE v2.5 05-Oct-2015 09:18:49
+% Last Modified by GUIDE v2.5 06-Oct-2015 09:18:00
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -263,3 +263,10 @@ function uibuttongroup8_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to uibuttongroup8 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
