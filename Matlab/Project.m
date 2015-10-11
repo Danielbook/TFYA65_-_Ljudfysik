@@ -1,10 +1,10 @@
 %% Projekt
 clear all; clc; close all;
 % Ladda in ljudfil
-    filename = 'My_life_is_potato.wav';
+    filename = 'guitar.mp3';
     [y, Fs] = audioread(filename); % y = audio data, Fs = Hertz
     
-    y = y(1:420000, 1:2);
+    y = y(1:300000, 1:2);
     
    	original = audioplayer(y, Fs);
       
@@ -16,14 +16,14 @@ clear all; clc; close all;
     play(original);
 
 %% Distortion
-    distGain = 0.9; % amount of distortion added to signal -1 < a < 1 
+    distGain = 0.6; % amount of distortion added to signal -1 < a < 1 
     
     testSignal = distortion(distGain , testSignal);
     
     signal = audioplayer(testSignal, Fs);
 
-%% Delay L??gpass?? Distortion??
-    N = .6;  % Delay amount seconds
+%% Delay
+    N = 1;  % Delay amount seconds
     N = N * 44100;
     
     testSignal = delay(N, testSignal);
@@ -32,8 +32,8 @@ clear all; clc; close all;
 
 %% Tremolo
     % Varies the amplitude of the output signal 
-    Fc = 10;      % SPEED
-    alpha = 0.5;    % MIX
+    Fc = 8;       % SPEED
+    alpha = 1;    % MIX
     
     testSignal = tremolo(alpha, testSignal, Fc, Fs);
 
